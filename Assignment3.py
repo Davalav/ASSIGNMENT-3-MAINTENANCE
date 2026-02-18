@@ -10,8 +10,21 @@ trail3 = pd.read_csv('Trail3_extracted_features_acceleration_m2ai0.csv')
 
 df = pd.concat([trail1, trail2, trail3], ignore_index = True)
 #print(df)
-df = df.drop(columns=["start_time", "axle", "cluster", "tsne_1", "tsne_2"])
+df = df.drop(columns=["start_time", "axle", "cluster", "tsne_1", "tsne_2"], errors='ignore')
+#print(df)
+
+events = []
+for x in df["event"]:
+    if x == "normal":
+        events.append(0)
+    else:
+        events.append(1)
+df["event"] = events
+
 print(df)
+
+
+
 
 
 """
