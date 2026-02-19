@@ -14,12 +14,12 @@ df = df.drop(columns=["start_time", "axle", "cluster", "tsne_1", "tsne_2"], erro
 #print(df)
 
 events = []
-for x in df["event"]:
+for x in df["event"]: #For every event we either add a 0 or 1
     if x == "normal":
-        events.append(0)
+        events.append(0) #Append adds Zero at the back of the list
     else:
-        events.append(1)
-df["event"] = events
+        events.append(1) #Append adds 1 at the back of the list
+df["event"] = events #We replace the column information given by the CSV files with one's or zero's
 
 print(df)
 
