@@ -30,9 +30,21 @@ print(df.isnull().sum())
 
 # Splitting data on to features and Target 
 # Features = X and Target = Y
-X = df.drop("event")
+X = df.drop(columns=["event"])
 Y = df["event"]
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=Y)
+
+scaler = StandardScaler()
+X_train_Scaled = scaler.fit_transform(X_train)
+X_test_Scaled = scaler.fit_transform(X_test)
+# Y doesn't need scaling since it is either 0 or 1 (event) 
+
+X_train_Scaled = pd.DataFrame(X_train_Scaled, columns=X.columns)
+X_test_Scaled = pd.DataFrame(X_test_Scaled, columns=X.columns)
+
+print(X_train_Scaled)
+print(X_test_Scaled)
+
 
 
 """
@@ -45,11 +57,8 @@ Stratify makes sure that we have the same proportions of event = 0 and event = 1
 
 random_state = 42 means that we make the same split each time we run the code.
 """
-
-
-
-
-#Scaling the data
+"""
+#Scaling the data with the splitted data
 scaler = StandardScaler() #Standard Notation
 ColumnScaling = df.drop(columns=["event"]) # Drop event, since it shouldn't be transformed it is already bv
 scaledColumns = scaler.fit_transform(ColumnScaling)
@@ -58,7 +67,7 @@ Table = pd.DataFrame(scaledColumns, columns=ColumnScaling.columns)
 #print(Table)
 Table["event"] = df["event"].values #Add event back
 print(Table)
-
+"""
 
 #Target column normal, joint X, squat A, etc)
 #Why is event considered ground truth? "is labelled by us" - Mohammed Amin Adoul
