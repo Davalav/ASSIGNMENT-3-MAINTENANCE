@@ -3,42 +3,40 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
-
+# Reading CSV files
 trail1 = pd.read_csv('Trail1_extracted_features_acceleration_m1ai1-1.csv')
 trail2 = pd.read_csv('Trail2_extracted_features_acceleration_m1ai1.csv')
 trail3 = pd.read_csv('Trail3_extracted_features_acceleration_m2ai0.csv')
 
+# Concatenating the files
 df = pd.concat([trail1, trail2, trail3], ignore_index = True)
-#print(df)
+# Remove Columns
 df = df.drop(columns=["start_time", "axle", "cluster", "tsne_1", "tsne_2"], errors='ignore')
 #print(df)
 
+# Replacing Event Information
 events = []
 for x in df["event"]: #For every event we either add a 0 or 1
     if x == "normal":
         events.append(0) #Append adds Zero at the back of the list
     else:
         events.append(1) #Append adds 1 at the back of the list
-df["event"] = events #We replace the column information given by the CSV files with one's or zero's
+df["event"] = events #We replace the column information given by the CSV files with one's or zero's from the events list
 
-print(df)
-
-
-
-
-
-"""
-###ignore_index= True resets the row index after concatenation###
-df = concatenate ([trail1, trail2, trail3], ignore_index = True)
-            
-
-drop columns
+#Controlling if there is any NaN here
+print("How many NaN / column?")
+print(df.isnull().sum())
 
 
-Encode 'event' column (binary classification)
-'normal' -> 0, everything else -> 1
-
-"""
+#Scaling the data
+scaler = StandardScaler() #Standard Notation
+ColumnScaling = df.drop(columns=["event"]) # Drop event, since it shouldn't be transformed it is already bv
+scaledColumns = scaler.fit_transform(ColumnScaling)
+#NumPy Array, so we need to fix it into normal table again
+Table = pd.DataFrame(scaledColumns, columns=ColumnScaling.columns)
+#print(Table)
+Table["event"] = df["event"].values #Add event back
+print(Table)
 
 
 # It seems to have a key --> event
