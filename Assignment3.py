@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler # Import Scaling method
+from sklearn.model_selection import train_test_split # Import data splitting method
 
 
 # Reading CSV files
@@ -38,12 +39,18 @@ Table = pd.DataFrame(scaledColumns, columns=ColumnScaling.columns)
 Table["event"] = df["event"].values #Add event back
 print(Table)
 
+# Splitting data on to features and Target 
+# Features = X and Target = Y
+X_train, X_test, Y_train, Y_test = train_test_split()
+#Stratify? Do we need it?
 
-# It seems to have a key --> event
-# Maybe not the correct word is merge, rather add together... if that makes sence
-#Remove start_time, axle, cluster, tsne_1 and tsne_2
+
+
+
+
 #Target column normal, joint X, squat A, etc)
 #Why is event considered ground truth? "is labelled by us" - Mohammed Amin Adoul
 #tsne represents --> time distributed neural embedded (Visualisation of the Data)
 #Normalization after splitting, otherwise it will be leaky data
+#---------------> Explain leaky data in report
 
