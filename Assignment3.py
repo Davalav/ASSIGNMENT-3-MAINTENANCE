@@ -60,7 +60,9 @@ score_cross = cross_val_score(svm, X_train_Scaled, Y_train, cv=5, scoring='accur
 # Leaky data between all the folds?
 
 print(test_acc)
-print(score_cross)
+score_mean = score_cross.mean()
+print(score_mean)
+
 
 
 
