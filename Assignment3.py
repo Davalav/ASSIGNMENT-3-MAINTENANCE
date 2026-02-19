@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler # Import Scaling method
 from sklearn.model_selection import train_test_split # Import data splitting method
+from sklearn.model_selection import cross_val_score, cross_validate, KFold # Cross-validation methods
+from sklearn.svm import SVC # Support Vector Classifier
 
 
 # Reading CSV files
@@ -39,15 +41,27 @@ X_train_Scaled = scaler.fit_transform(X_train) # fit_transform
 X_test_Scaled = scaler.transform(X_test) # transform
 # Y doesn't need scaling since it is either 0 or 1 (event) 
 
-print(X_train)
+#print(X_train)
 #print(X_test)
 
 X_train_Scaled = pd.DataFrame(X_train_Scaled, columns=X.columns, index=X_train.index) # index = X_train.index -->Keep same row number as X_train had
 X_test_Scaled = pd.DataFrame(X_test_Scaled, columns=X.columns, index=X_test.index) # index = X_test.index --> Keep same row number as X_test had
 # We keep the same index placing, so that we know that the information matches with the target
 
-print(X_train_Scaled)
+#print(X_train_Scaled)
 #print(X_test_Scaled)
+
+svm = SVC(random_state=42)
+svm.fit(X_train_Scaled, Y_train)
+test_acc = svm.score(X_test_Scaled, Y_test)
+
+
+score_cross = cross_val_score(svm, X_train_Scaled, Y_train, cv=5, scoring='accuracy')
+# Leaky data between all the folds?
+
+print(test_acc)
+print(score_cross)
+
 
 
 
