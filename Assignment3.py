@@ -28,6 +28,26 @@ df["event"] = events #We replace the column information given by the CSV files w
 print("How many NaN / column?")
 print(df.isnull().sum())
 
+# Splitting data on to features and Target 
+# Features = X and Target = Y
+X = df.drop("event")
+Y = df["event"]
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=Y)
+
+
+"""
+The data needs to be splitted before Scaling, because otherwise the scaling will use the whole dataset to scale the data, including the test data.
+This can make it look like our model is better than it actually is, but that is only because we have taken the test data into account when we scaled
+it.
+
+Stratify? Do we need it?
+Stratify makes sure that we have the same proportions of event = 0 and event = 1 in the training data as the test data. So it is probably a good thing.
+
+random_state = 42 means that we make the same split each time we run the code.
+"""
+
+
+
 
 #Scaling the data
 scaler = StandardScaler() #Standard Notation
@@ -38,14 +58,6 @@ Table = pd.DataFrame(scaledColumns, columns=ColumnScaling.columns)
 #print(Table)
 Table["event"] = df["event"].values #Add event back
 print(Table)
-
-# Splitting data on to features and Target 
-# Features = X and Target = Y
-X_train, X_test, Y_train, Y_test = train_test_split()
-#Stratify? Do we need it?
-
-
-
 
 
 #Target column normal, joint X, squat A, etc)
