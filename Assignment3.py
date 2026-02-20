@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split # Import data splitting met
 from sklearn.model_selection import cross_val_score, cross_validate, KFold # Cross-validation methods
 from sklearn.svm import SVC # Support Vector Classifier
 from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the leaky data problem...
+from sklearn.feature_selection import mutual_info_classif # Mutual Information
 
 
 # Reading CSV files
@@ -72,5 +73,15 @@ print("------------------------------------------")
 -Wrapper Methods --> Recursive feature elimination
 -Embedded Methods --> LASSO, tree-based models
 -----------------------------------------------------------
+It would be nice to make a table, where we can compare the different models based on the features we have chosen from each algorithm.
 """
+
+# Mutual Information
+mi = mutual_info_classif(X_train, Y_train, random_state=42)
+mi_table = pd.Series(mi, index=X_train.columns).sort_values(ascending=False)
+
+#print(mi_table)
+mi_top = mi_table.head(5)
+print(mi_top)
+
 
