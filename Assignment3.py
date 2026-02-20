@@ -8,6 +8,7 @@ from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the 
 from sklearn.feature_selection import mutual_info_classif # Mutual Information
 from sklearn.feature_selection import RFE # Recursive Feature Elimination
 from sklearn.linear_model import LogisticRegression # LASSO
+from sklearn.feature_selection import SelectFromModel
 
 
 # Reading CSV files
@@ -113,12 +114,14 @@ print("------------------------------------------")
 
 Lasso_pipe = Pipeline([
     ("Scaler", StandardScaler()),
-    ("Selector", LogisticRegression(
-        penalty=,
-        l1_ratio=,
-        dual=,
+    ("Selector", SelectFromModel(
+     LogisticRegression(
+        penalty="l1",
+        solver="liblinear",
+        C=4, #How many features survive
+        dual=False, #when n_samples > n_features.
         random_state=42,
-        solver=
+        )
     )),
     ("Classifier", SVC(random_state=42))
 ])
