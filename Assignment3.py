@@ -7,6 +7,7 @@ from sklearn.svm import SVC, LinearSVC # Support Vector Classifier
 from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the leaky data problem...
 from sklearn.feature_selection import mutual_info_classif # Mutual Information
 from sklearn.feature_selection import RFE # Recursive Feature Elimination
+from sklearn.linear_model import LogisticRegression # LASSO
 
 
 # Reading CSV files
@@ -108,7 +109,14 @@ print(f"RFE Cross-Validation: {RFE_cross.mean()}")
 print("4 Features --> worse than MI (but doing ok)")
 print("------------------------------------------")
 
-#
+# LASSO
+
+Lasso_pipe = Pipeline([
+    ("Scaler", StandardScaler()),
+    ("Selector", RFE(
+        estimator=LinearSVC(dual=False, random_state=42), n_features_to_select=4)),
+    ("Classifier", SVC(random_state=42))
+])
 
 
 
