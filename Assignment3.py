@@ -108,6 +108,9 @@ print(f"RFE Cross-Validation: {RFE_cross.mean()}")
 print("4 Features --> worse than MI (but doing ok)")
 print("------------------------------------------")
 
+#
+
+
 
 """
 --> Implement atleast four feature selection algorithms <--
@@ -117,4 +120,5 @@ print("------------------------------------------")
 -Embedded Methods --> LASSO, tree-based models
 -----------------------------------------------------------
 It would be nice to make a table, where we can compare the different models based on the features we have chosen from each algorithm.
+It would also be nice to organize the code in sections, ex all the pipes in one section and all the prints in another.
 """
