@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split # Import data splitting met
 from sklearn.model_selection import cross_val_score, cross_validate, KFold # Cross-validation methods
 from sklearn.svm import SVC # Support Vector Classifier
 from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the leaky data problem...
+from sklearn.feature_selection import mutual_info_classif # Mutual Information
 
 
 # Reading CSV files
@@ -64,3 +65,41 @@ print(f"Regular SVM score: {test_acc}")
 score_mean = score_cross.mean()
 print(f"Cross-Validation score: {score_mean}")
 print("------------------------------------------")
+
+# Mutual Information
+mi = mutual_info_classif(X_train, Y_train, random_state=42)
+mi_table = pd.Series(mi, index=X_train.columns).sort_values(ascending=False).head(4)
+mi_TopFeatures = mi_table.index
+
+print(mi_table)
+
+mi_pipe = Pipeline([ 
+    ("Scaling", StandardScaler()),
+    ('classifier', SVC(random_state=42)) 
+])
+
+mi_cross = cross_val_score(mi_pipe, X_train[mi_TopFeatures], Y_train, cv=5, scoring='accuracy') 
+
+mi_pipe.fit(X_train[mi_TopFeatures], Y_train)
+mi_test_acc = mi_pipe.score(X_test[mi_TopFeatures], Y_test)
+
+print("------------------------------------------")
+print(f"MI Cross-Validation mean: {mi_cross.mean()}")
+print(f"MI Test accuracy: {mi_test_acc}")
+print("4 Features --> Same accuracy")
+print("------------------------------------------")
+
+# Recursive Feature Elimination
+
+
+
+
+"""
+--> Implement atleast four feature selection algorithms <--
+-----------------------------------------------------------
+-Filter Methods --> Pearson Correlation or chi-square test ---> Mutual Information (I use)
+-Wrapper Methods --> Recursive feature elimination
+-Embedded Methods --> LASSO, tree-based models
+-----------------------------------------------------------
+It would be nice to make a table, where we can compare the different models based on the features we have chosen from each algorithm.
+"""
