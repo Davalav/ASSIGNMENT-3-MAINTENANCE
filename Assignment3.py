@@ -133,9 +133,22 @@ print(f"Lasso Test Accuracy {Lasso_acc}")
 
 Lasso_cross = cross_val_score(Lasso_pipe, X_train, Y_train, cv=5, scoring='accuracy')
 print(f"Lasso Cross-Validation: {Lasso_cross.mean()}")
-print("4 features --> Lasso CV best so far!")
+ # How many features survived LASSO
+
+Lasso_Features = Lasso_pipe.named_steps["Selector"].get_support()
+amount = 0
+for x in Lasso_Features:
+    if x == True:
+        amount = amount + 1
+
+
+#print(Lasso_Features)
+print(f"Amount of features: {amount}")
+
+
 print("------------------------------------------")
 
+#
 
 
 
