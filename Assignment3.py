@@ -59,7 +59,8 @@ score_cross = cross_val_score(svm_NoLeak, X_train, Y_train, cv=5, scoring='accur
 # Leaky data between all the folds?
 # Since it is fitted through all X_train_Scaled --> The scaling has been done with all the five folds included, therefore the data leaks through the five folds.
 
-
-print(test_acc)
+print("------------------------------------------")
+print(f"Regular SVM score: {test_acc}")
 score_mean = score_cross.mean()
-print(score_mean)
+print(f"Cross-Validation score: {score_mean}")
+print("------------------------------------------")
