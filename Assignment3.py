@@ -129,10 +129,12 @@ Lasso_pipe = Pipeline([
 
 Lasso_pipe.fit(X_train, Y_train)
 Lasso_acc = Lasso_pipe.score(X_test, Y_test)
-print(Lasso_acc)
+print(f"Lasso Test Accuracy {Lasso_acc}")
 
 Lasso_cross = cross_val_score(Lasso_pipe, X_train, Y_train, cv=5, scoring='accuracy')
-print(Lasso_cross)
+print(f"Lasso Cross-Validation: {Lasso_cross.mean()}")
+print("4 features --> Lasso CV best so far!")
+print("------------------------------------------")
 
 
 
