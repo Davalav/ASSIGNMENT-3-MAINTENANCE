@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler # Import Scaling method
 from sklearn.model_selection import train_test_split # Import data splitting method
 from sklearn.model_selection import cross_val_score, cross_validate, KFold # Cross-validation methods
 from sklearn.svm import SVC # Support Vector Classifier
+from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the leaky data problem...
 
 
 # Reading CSV files
@@ -56,10 +57,19 @@ svm.fit(X_train_Scaled, Y_train)
 test_acc = svm.score(X_test_Scaled, Y_test)
 
 
-score_cross = cross_val_score(svm, X_train_Scaled, Y_train, cv=5, scoring='accuracy')
+
+svm_NoLeak = Pipeline([
+    ("Scaling", scaler),
+    ('classifier', svm) 
+])
+
+
+score_cross = cross_val_score(svm_NoLeak, X_train, Y_train, cv=5, scoring='accuracy') 
 # Leaky data between all the folds?
 # Since it is fitted through all X_train_Scaled --> The scaling has been done with all the five folds included, therefore the data leaks through the five folds.
-
+"""
+Previously we had svm, and X_train_scaled --> svm_NoLeak and X_train
+"""
 
 print(test_acc)
 score_mean = score_cross.mean()
