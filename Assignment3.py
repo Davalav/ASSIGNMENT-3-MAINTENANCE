@@ -66,16 +66,6 @@ score_mean = score_cross.mean()
 print(f"Cross-Validation score: {score_mean}")
 print("------------------------------------------")
 
-"""
---> Implement atleast four feature selection algorithms <--
------------------------------------------------------------
--Filter Methods --> Pearson Correlation or chi-square test
--Wrapper Methods --> Recursive feature elimination
--Embedded Methods --> LASSO, tree-based models
------------------------------------------------------------
-It would be nice to make a table, where we can compare the different models based on the features we have chosen from each algorithm.
-"""
-
 # Mutual Information
 mi = mutual_info_classif(X_train, Y_train, random_state=42)
 mi_table = pd.Series(mi, index=X_train.columns).sort_values(ascending=False).head(4)
@@ -89,6 +79,22 @@ mi_pipe = Pipeline([
 ])
 
 mi_cross = cross_val_score(mi_pipe, X_train[mi_TopFeatures], Y_train, cv=5, scoring='accuracy') 
+
+mi_pipe.fit(X_train[mi_TopFeatures], Y_train)
+mi_test_acc = mi_pipe.score(X_test[mi_TopFeatures], Y_test)
+
 print("------------------------------------------")
 print(f"MI Cross-Validation mean: {mi_cross.mean()}")
+print(f"MI Test accuracy: {mi_test_acc}")
+print("4 Features --> Same accuracy")
 print("------------------------------------------")
+
+"""
+--> Implement atleast four feature selection algorithms <--
+-----------------------------------------------------------
+-Filter Methods --> Pearson Correlation or chi-square test
+-Wrapper Methods --> Recursive feature elimination
+-Embedded Methods --> LASSO, tree-based models
+-----------------------------------------------------------
+It would be nice to make a table, where we can compare the different models based on the features we have chosen from each algorithm.
+"""
