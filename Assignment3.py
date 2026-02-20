@@ -144,7 +144,7 @@ for x in Lasso_Features:
 
 #print(Lasso_Features)
 print(f"Amount of features: {amount}")
-
+print("CV-Lasso --> best accuracy. However 8 features...")
 
 print("------------------------------------------")
 
