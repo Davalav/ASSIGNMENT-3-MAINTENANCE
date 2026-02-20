@@ -8,6 +8,7 @@ from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the 
 from sklearn.feature_selection import mutual_info_classif # Mutual Information
 from sklearn.feature_selection import RFE # Recursive Feature Elimination
 from sklearn.linear_model import LogisticRegression # LASSO
+from sklearn.feature_selection import SelectFromModel
 
 
 # Reading CSV files
@@ -113,10 +114,41 @@ print("------------------------------------------")
 
 Lasso_pipe = Pipeline([
     ("Scaler", StandardScaler()),
-    ("Selector", RFE(
-        estimator=LinearSVC(dual=False, random_state=42), n_features_to_select=4)),
+    ("Selector", SelectFromModel(
+     LogisticRegression(
+        penalty="l1",
+        solver="liblinear",
+        C=4, #How many features survive
+        dual=False, #when n_samples > n_features.
+        random_state=42,
+        )
+    )),
     ("Classifier", SVC(random_state=42))
 ])
+#https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+
+Lasso_pipe.fit(X_train, Y_train)
+Lasso_acc = Lasso_pipe.score(X_test, Y_test)
+print(f"Lasso Test Accuracy {Lasso_acc}")
+
+Lasso_cross = cross_val_score(Lasso_pipe, X_train, Y_train, cv=5, scoring='accuracy')
+print(f"Lasso Cross-Validation: {Lasso_cross.mean()}")
+ # How many features survived LASSO
+
+Lasso_Features = Lasso_pipe.named_steps["Selector"].get_support()
+amount = 0
+for x in Lasso_Features:
+    if x == True:
+        amount = amount + 1
+
+
+#print(Lasso_Features)
+print(f"Amount of features: {amount}")
+print("CV-Lasso --> best accuracy. However 8 features...")
+
+print("------------------------------------------")
+
+# Random Forrest
 
 
 
