@@ -113,10 +113,15 @@ print("------------------------------------------")
 
 Lasso_pipe = Pipeline([
     ("Scaler", StandardScaler()),
-    ("Selector", RFE(
-        estimator=LinearSVC(dual=False, random_state=42), n_features_to_select=4)),
+    ("Selector", LogisticRegression()),
     ("Classifier", SVC(random_state=42))
 ])
+#https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+
+Lasso_pipe.fit(X_train, Y_train)
+Lasso_acc = Lasso_pipe.score(X_test, Y_test)
+print(Lasso_acc)
+
 
 
 
