@@ -78,10 +78,17 @@ It would be nice to make a table, where we can compare the different models base
 
 # Mutual Information
 mi = mutual_info_classif(X_train, Y_train, random_state=42)
-mi_table = pd.Series(mi, index=X_train.columns).sort_values(ascending=False)
+mi_table = pd.Series(mi, index=X_train.columns).sort_values(ascending=False).head(4)
+mi_TopFeatures = mi_table.index
 
-#print(mi_table)
-mi_top = mi_table.head(5)
-print(mi_top)
+print(mi_table)
 
+mi_pipe = Pipeline([ 
+    ("Scaling", StandardScaler()),
+    ('classifier', SVC(random_state=42)) 
+])
 
+mi_cross = cross_val_score(mi_pipe, X_train[mi_TopFeatures], Y_train, cv=5, scoring='accuracy') 
+print("------------------------------------------")
+print(f"MI Cross-Validation mean: {mi_cross.mean()}")
+print("------------------------------------------")
