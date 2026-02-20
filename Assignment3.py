@@ -9,6 +9,7 @@ from sklearn.feature_selection import mutual_info_classif # Mutual Information
 from sklearn.feature_selection import RFE # Recursive Feature Elimination
 from sklearn.linear_model import LogisticRegression # LASSO
 from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier # Random Forest
 
 
 # Reading CSV files
@@ -150,8 +151,25 @@ print("------------------------------------------")
 
 # Random Forrest
 
+RandomForest_pipe = Pipeline([
+    ("Scaler", StandardScaler()),
+    ("Selector", SelectFromModel(
+     RandomForestClassifier(
+        n_estimators=100,
+        max_depth=None,
+        random_state=42
+        )
+    )),
+    ("Classifier", SVC(random_state=42))
+])
 
+RandomForest_pipe.fit(X_train, Y_train)
+RandomForest_acc = RandomForest_pipe.score(X_test, Y_test)
+print(f"RandomForest Test Accuracy {RandomForest_acc}")
 
+RandomForest_cross = cross_val_score(RandomForest_pipe, X_train, Y_train, cv=5, scoring='accuracy')
+print(f"Random Forest CV: {RandomForest_cross.mean()}")
+print("------------------------------------------")
 """
 --> Implement atleast four feature selection algorithms <--
 -----------------------------------------------------------
