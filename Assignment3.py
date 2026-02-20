@@ -64,3 +64,13 @@ print(f"Regular SVM score: {test_acc}")
 score_mean = score_cross.mean()
 print(f"Cross-Validation score: {score_mean}")
 print("------------------------------------------")
+
+"""
+--> Implement atleast four feature selection algorithms <--
+-----------------------------------------------------------
+-Filter Methods --> Pearson Correlation or chi-square test
+-Wrapper Methods --> Recursive feature elimination
+-Embedded Methods --> LASSO, tree-based models
+-----------------------------------------------------------
+"""
+
