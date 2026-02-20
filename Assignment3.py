@@ -89,10 +89,15 @@ print(f"MI Test accuracy: {mi_test_acc}")
 print("4 Features --> Same accuracy")
 print("------------------------------------------")
 
+# Recursive Feature Elimination
+
+
+
+
 """
 --> Implement atleast four feature selection algorithms <--
 -----------------------------------------------------------
--Filter Methods --> Pearson Correlation or chi-square test
+-Filter Methods --> Pearson Correlation or chi-square test ---> Mutual Information (I use)
 -Wrapper Methods --> Recursive feature elimination
 -Embedded Methods --> LASSO, tree-based models
 -----------------------------------------------------------
