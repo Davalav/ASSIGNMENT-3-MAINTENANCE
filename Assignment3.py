@@ -113,7 +113,13 @@ print("------------------------------------------")
 
 Lasso_pipe = Pipeline([
     ("Scaler", StandardScaler()),
-    ("Selector", LogisticRegression()),
+    ("Selector", LogisticRegression(
+        penalty=,
+        l1_ratio=,
+        dual=,
+        random_state=42,
+        solver=
+    )),
     ("Classifier", SVC(random_state=42))
 ])
 #https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
