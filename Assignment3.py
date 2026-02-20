@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler # Import Scaling method
 from sklearn.model_selection import train_test_split # Import data splitting method
+from sklearn.model_selection import cross_val_score, cross_validate, KFold # Cross-validation methods
+from sklearn.svm import SVC # Support Vector Classifier
+from sklearn.pipeline import Pipeline # PipeLine method --> Trying to solve the leaky data problem...
 
 
 # Reading CSV files
@@ -39,32 +42,25 @@ X_train_Scaled = scaler.fit_transform(X_train) # fit_transform
 X_test_Scaled = scaler.transform(X_test) # transform
 # Y doesn't need scaling since it is either 0 or 1 (event) 
 
-print(X_train)
-#print(X_test)
-
 X_train_Scaled = pd.DataFrame(X_train_Scaled, columns=X.columns, index=X_train.index) # index = X_train.index -->Keep same row number as X_train had
 X_test_Scaled = pd.DataFrame(X_test_Scaled, columns=X.columns, index=X_test.index) # index = X_test.index --> Keep same row number as X_test had
 # We keep the same index placing, so that we know that the information matches with the target
 
-print(X_train_Scaled)
-#print(X_test_Scaled)
+svm = SVC(random_state=42)
+svm.fit(X_train_Scaled, Y_train)
+test_acc = svm.score(X_test_Scaled, Y_test)
 
+svm_NoLeak = Pipeline([ 
+    ("Scaling", StandardScaler()),
+    ('classifier', SVC(random_state=42)) 
+])
 
+score_cross = cross_val_score(svm_NoLeak, X_train, Y_train, cv=5, scoring='accuracy') 
+# Leaky data between all the folds?
+# Since it is fitted through all X_train_Scaled --> The scaling has been done with all the five folds included, therefore the data leaks through the five folds.
 
-"""
-The data needs to be splitted before Scaling, because otherwise the scaling will use the whole dataset to scale the data, including the test data.
-This can make it look like our model is better than it actually is, but that is only because we have taken the test data into account when we scaled
-it.
-
-Stratify? Do we need it?
-Stratify makes sure that we have the same proportions of event = 0 and event = 1 in the training data as the test data. So it is probably a good thing.
-
-random_state = 42 means that we make the same split each time we run the code.
-"""
-
-#Target column normal, joint X, squat A, etc)
-#Why is event considered ground truth? "is labelled by us" - Mohammed Amin Adoul
-#tsne represents --> time distributed neural embedded (Visualisation of the Data)
-#Normalization after splitting, otherwise it will be leaky data
-#---------------> Explain leaky data in report
-
+print("------------------------------------------")
+print(f"Regular SVM score: {test_acc}")
+score_mean = score_cross.mean()
+print(f"Cross-Validation score: {score_mean}")
+print("------------------------------------------")
