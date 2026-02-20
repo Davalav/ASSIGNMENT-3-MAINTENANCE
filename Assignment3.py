@@ -151,7 +151,19 @@ print("------------------------------------------")
 
 # Random Forrest
 
+RandomForest_pipe = Pipeline([
+    ("Scaler", StandardScaler()),
+    ("Selector", SelectFromModel(
+     RandomForestClassifier(
+        
+        )
+    )),
+    ("Classifier", SVC(random_state=42))
+])
 
+RandomForest_pipe.fit(X_train, Y_train)
+RandomForest_acc = RandomForest_pipe.score(X_test, Y_test)
+print(f"RandomForest Test Accuracy {RandomForest_acc}")
 
 """
 --> Implement atleast four feature selection algorithms <--
