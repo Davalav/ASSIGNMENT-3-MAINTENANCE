@@ -58,9 +58,9 @@ test_acc = svm.score(X_test_Scaled, Y_test)
 
 
 
-svm_NoLeak = Pipeline([
-    ("Scaling", scaler),
-    ('classifier', svm) 
+svm_NoLeak = Pipeline([ 
+    ("Scaling", StandardScaler()),
+    ('classifier', SVC(random_state=42)) #Changed to SVC(random_state=42) since I don't know if the svm.fit earlier changes the outcome...
 ])
 
 
