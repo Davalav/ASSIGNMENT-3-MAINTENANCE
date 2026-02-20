@@ -9,6 +9,7 @@ from sklearn.feature_selection import mutual_info_classif # Mutual Information
 from sklearn.feature_selection import RFE # Recursive Feature Elimination
 from sklearn.linear_model import LogisticRegression # LASSO
 from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier # Random Forest
 
 
 # Reading CSV files
