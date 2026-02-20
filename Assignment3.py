@@ -58,6 +58,8 @@ test_acc = svm.score(X_test_Scaled, Y_test)
 
 score_cross = cross_val_score(svm, X_train_Scaled, Y_train, cv=5, scoring='accuracy')
 # Leaky data between all the folds?
+# Since it is fitted through all X_train_Scaled --> The scaling has been done with all the five folds included, therefore the data leaks through the five folds.
+
 
 print(test_acc)
 score_mean = score_cross.mean()
